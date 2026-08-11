@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Atlas — Vendor Risk Intelligence</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand"><span class="mark">A</span><span>Atlas</span></div>
+      <nav>
+        <button class="nav active">Assessments</button>
+        <button class="nav" disabled>Vendors</button>
+        <button class="nav" disabled>Reports</button>
+      </nav>
+      <div class="powered">AI runtime powered by Woobe</div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">Vendor Risk Intelligence</p>
+          <h1>Assessments</h1>
+        </div>
+        <button id="newAssessment" class="primary">New assessment</button>
+      </header>
+
+      <section class="stats">
+        <article><span>Assessments</span><strong id="statTotal">0</strong></article>
+        <article><span>Completed</span><strong id="statCompleted">0</strong></article>
+        <article><span>In review</span><strong id="statReview">0</strong></article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-title">
+          <h2>Recent assessments</h2>
+          <span class="muted">Atlas owns case data. Woobe owns the AI product runtime.</span>
+        </div>
+        <div id="assessmentList" class="list"></div>
+      </section>
+
+      <section id="detail" class="panel hidden"></section>
+    </main>
+  </div>
+
+  <dialog id="createDialog">
+    <form id="createForm">
+      <div class="dialog-head">
+        <div><p class="eyebrow">New assessment</p><h2>Vendor profile</h2></div>
+        <button type="button" class="icon" id="closeDialog">×</button>
+      </div>
+      <label>Vendor name<input name="vendor_name" required placeholder="Acme Cloud"></label>
+      <div class="grid2">
+        <label>Category<input name="category" value="SaaS"></label>
+        <label>Criticality
+          <select name="criticality">
+            <option>LOW</option><option>MEDIUM</option><option selected>HIGH</option><option>CRITICAL</option>
+          </select>
+        </label>
+      </div>
+      <label>Region<input name="region" value="US / EU"></label>
+      <label>Data handled<input name="data_handled" value="PII, Financial data"></label>
+      <div class="check-row">
+        <label><input type="checkbox" name="requirements" value="SECURITY" checked> Security</label>
+        <label><input type="checkbox" name="requirements" value="LEGAL" checked> Legal</label>
+        <label><input type="checkbox" name="requirements" value="COMPLIANCE" checked> Compliance</label>
+      </div>
+      <button class="primary full">Create assessment</button>
+    </form>
+  </dialog>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

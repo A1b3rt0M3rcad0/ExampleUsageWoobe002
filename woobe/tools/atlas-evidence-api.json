@@ -1,0 +1,55 @@
+{
+  "protocol": "http",
+  "mode": "group",
+  "schema_version": 2,
+  "base_url": "https://atlas.example.com",
+  "headers": [
+    {"key": "Authorization", "value": "{{secret:ATLAS_HTTP_AUTHORIZATION}}", "sensitive": true, "mode": "set"}
+  ],
+  "auth": {"type": "none"},
+  "timeout_ms": 15000,
+  "routes": [
+    {
+      "id": "list_documents",
+      "operation_id": "atlas_list_documents",
+      "name": "List assessment documents",
+      "description": "List evidence documents stored by Atlas for one assessment.",
+      "method": "GET",
+      "path": "/api/integrations/woobe/assessments/{{assessment_id}}/documents",
+      "input_schema": {"type":"object","additionalProperties":false,"properties":{"assessment_id":{"type":"string"}},"required":["assessment_id"]},
+      "risk_level": "low", "status": "active", "default_permission": "allow"
+    },
+    {
+      "id": "search_evidence",
+      "operation_id": "atlas_search_evidence",
+      "name": "Search assessment evidence",
+      "description": "Search extracted evidence chunks owned by Atlas for one assessment.",
+      "method": "POST",
+      "path": "/api/integrations/woobe/assessments/{{assessment_id}}/evidence/search",
+      "headers": [{"key":"Content-Type","value":"application/json","mode":"set"}],
+      "body": {"query":"{{query}}","domain":"{{domain}}","limit":"{{limit}}"},
+      "variables": {"domain":"ALL","limit":"8"},
+      "input_schema": {
+        "type":"object","additionalProperties":false,
+        "properties": {
+          "assessment_id":{"type":"string"},
+          "query":{"type":"string","minLength":2,"description":"Focused evidence search query."},
+          "domain":{"type":"string","enum":["SECURITY","LEGAL","COMPLIANCE","ALL"]},
+          "limit":{"type":"string","description":"1-20; default 8"}
+        },
+        "required":["assessment_id","query"]
+      },
+      "risk_level":"low","status":"active","default_permission":"allow","timeout_ms":15000
+    },
+    {
+      "id":"get_evidence",
+      "operation_id":"atlas_get_evidence",
+      "name":"Get evidence context",
+      "description":"Fetch the full Atlas evidence chunk after search for exact context.",
+      "method":"GET",
+      "path":"/api/integrations/woobe/assessments/{{assessment_id}}/evidence/{{evidence_id}}",
+      "input_schema":{"type":"object","additionalProperties":false,"properties":{"assessment_id":{"type":"string"},"evidence_id":{"type":"string"}},"required":["assessment_id","evidence_id"]},
+      "risk_level":"low","status":"active","default_permission":"allow","timeout_ms":10000
+    }
+  ]
+}
