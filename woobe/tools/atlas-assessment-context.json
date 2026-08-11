@@ -1,0 +1,31 @@
+{
+  "protocol": "http",
+  "mode": "group",
+  "schema_version": 2,
+  "base_url": "https://atlas.example.com",
+  "headers": [
+    {"key": "Authorization", "value": "{{secret:ATLAS_HTTP_AUTHORIZATION}}", "sensitive": true, "mode": "set"}
+  ],
+  "auth": {"type": "none"},
+  "timeout_ms": 10000,
+  "routes": [
+    {
+      "id": "get_assessment",
+      "operation_id": "atlas_get_assessment",
+      "name": "Get Atlas assessment",
+      "description": "Read the assessment scope and vendor context for one Atlas assessment.",
+      "method": "GET",
+      "path": "/api/integrations/woobe/assessments/{{assessment_id}}",
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {"assessment_id": {"type": "string", "description": "Atlas assessment id such as ass_..."}},
+        "required": ["assessment_id"]
+      },
+      "risk_level": "low",
+      "status": "active",
+      "default_permission": "allow",
+      "timeout_ms": 10000
+    }
+  ]
+}
